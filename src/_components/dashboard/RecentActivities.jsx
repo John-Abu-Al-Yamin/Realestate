@@ -160,14 +160,18 @@ const RecentActivities = () => {
                   </div>
                 </div>
               </div>
+<div
+  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+    isExpanded
+      ? "max-h-40 mt-2 pl-16 border-t border-border/30 dark:border-border/30 pt-3"
+      : "max-h-0 mt-0 pl-16 border-0 pt-0"
+  }`}
+>
+  <p className="text-sm text-muted-foreground dark:text-muted-foreground leading-relaxed">
+    {transaction.description}
+  </p>
+</div>
 
-              {isExpanded && (
-                <div className="mt-2 pl-16 border-t border-border/30 dark:border-border/30 pt-3">
-                  <p className="text-sm text-muted-foreground dark:text-muted-foreground leading-relaxed">
-                    {transaction.description}
-                  </p>
-                </div>
-              )}
             </div>
           )
         })}
