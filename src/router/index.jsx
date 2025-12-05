@@ -7,6 +7,8 @@ import LoginForm from "@/pages/auth/LoginForm";
 import ForgotPasswordForm from "@/pages/auth/ForgotPasswordForm";
 import OtpVerificationForm from "@/pages/auth/OtpVerificationForm";
 import ResetPasswordForm from "@/pages/auth/ResetPasswordForm";
+import Dashboard from "@/pages/dashboard/Dashboard";
+import AgenciesPage from "@/pages/AgenciesPage/AgenciesPage";
 
 const router = createBrowserRouter([
   {
@@ -27,11 +29,11 @@ const router = createBrowserRouter([
      
       {
         path: "",
-        element: <h1>Dashboard Page</h1>,
+        element: <Dashboard />,
       },
       {
         path: "agencies",
-        element: <h1>Agencies Page</h1>,
+        element: <AgenciesPage/>,
       },
       {
         path: "subscriptions",

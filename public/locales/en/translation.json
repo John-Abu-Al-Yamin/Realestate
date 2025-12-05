@@ -58,5 +58,8 @@
     "success": "Password changed successfully",
     "confirmButton": "Confirm",
     "backToLogin": "Back to login"
+  },
+  "dashboard": {
+    "welcomeBack": "Welcome Back"
   }
 }

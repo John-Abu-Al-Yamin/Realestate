@@ -37,7 +37,7 @@ const LanguageSwitcher = ({ isSidebarOpen = true }) => {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align={i18n.language === "ar" ? "start" : "end"}>
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}

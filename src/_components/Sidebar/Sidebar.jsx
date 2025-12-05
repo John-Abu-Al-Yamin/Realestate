@@ -29,11 +29,12 @@ const Sidebar = () => {
   ];
 
   return (
-    <div
-      className={`h-full dark:bg-[#1F1F23] flex flex-col transition-all duration-300
+<div
+  className={`fixed top-0 h-screen dark:bg-[#1F1F23] flex flex-col transition-all duration-300 bg-sidebar 
     ${isOpen ? "md:w-56" : "md:w-[58px]"}
-    ${i18n?.language === "ar" ? "border-l" : "border-r"}`}
-    >
+    ${i18n?.language === "ar" ? "right-0 border-l" : "left-0 border-r"}`}
+>
+
       {/* Header */}
       <div className="mb-8 flex items-center justify-between px-4 pt-6">
         {isOpen && (

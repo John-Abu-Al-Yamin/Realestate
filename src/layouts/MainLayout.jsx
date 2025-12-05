@@ -1,24 +1,30 @@
 import Sidebar from "@/_components/Sidebar/Sidebar";
 import SidebarMobil from "@/_components/Sidebar/SidebarMobil";
+import { useTranslation } from "next-i18next";
 import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
+  const { i18n } = useTranslation();
+
   return (
-    <div className="">
-      <div className={`flex h-screen bg-white`}>
-        <div className="hidden md:flex">
-          <Sidebar />
-        </div>
+    <div className="flex h-screen bg-white">
+      {/* Sidebar for desktop */}
+      <div className="hidden md:flex">
+        <Sidebar />
+      </div>
 
-        <div className="block md:hidden">
-          <SidebarMobil />
-        </div>
+      {/* Sidebar for mobile */}
+      <div className="block md:hidden">
+        <SidebarMobil />
+      </div>
 
-        <div className="flex-1 ">
-          <div className="bg-red-500 px-2">Header</div>
-
-          <Outlet />
-        </div>
+      {/* Main content */}
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          i18n?.language === "ar" ? " mr-0 md:mr-56" : "ml-0 md:ml-56"
+        }`}
+      >
+        <Outlet />
       </div>
     </div>
   );
