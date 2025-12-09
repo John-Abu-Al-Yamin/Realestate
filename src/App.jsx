@@ -1,10 +1,12 @@
-// App.jsx
 import { RouterProvider } from "react-router-dom";
 import router from "./router";
+import TanstackProvider from "./providers/TanstackProvider";
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <TanstackProvider>
+      <RouterProvider router={router} />
+    </TanstackProvider>
   );
 }
 
