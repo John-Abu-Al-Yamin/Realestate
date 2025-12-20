@@ -9,6 +9,8 @@ import OtpVerificationForm from "@/pages/auth/OtpVerificationForm";
 import ResetPasswordForm from "@/pages/auth/ResetPasswordForm";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import AgenciesPage from "@/pages/AgenciesPage/AgenciesPage";
+import AgencyDetailsPage from "@/pages/AgenciesPage/AgencyDetailsPage";
+import AddAgencies from "@/pages/AgenciesPage/AddAgencies";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
       {
         path: "agencies",
         element: <AgenciesPage/>,
+      },
+      {
+        path: "agencies/:id",
+        element: <AgencyDetailsPage/>,
+      },
+      {
+        path: "agencies/add",
+        element: <AddAgencies/>,
       },
       {
         path: "subscriptions",

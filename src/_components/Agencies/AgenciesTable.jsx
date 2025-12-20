@@ -1,20 +1,12 @@
 import {
   Eye,
-  Edit,
+  Pencil,
   Trash2,
-  Building2,
-  Users,
-  RefreshCw,
+  CheckCircle,
+  XCircle,
   SquarePen,
 } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,9 +16,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "next-i18next";
+import { useNavigate } from "react-router-dom";
 
 const AgenciesTable = () => {
-  const agencies = [
+  const headers = [
+    "Name",
+    "Owner Name",
+    "Phone",
+    "Email",
+    "Subscription Plan",
+    "Status",
+    "Created At",
+    "Actions",
+  ];
+  const data = [
     {
       id: 1,
       name: "وكالة المستقبل",
@@ -69,131 +72,157 @@ const AgenciesTable = () => {
     },
   ];
 
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
+
+
+  const navigate = useNavigate();
+
 
   return (
     <div className="rounded-lg border border-border overflow-hidden">
-      <Table className="border-collapse">
-        <TableHeader className="bg-muted/50">
-          <TableRow className="border-b-0">
-            <TableHead className="font-semibold p-3 text-center">
-              اسم الوكالة
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              اسم المالك
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              رقم الهاتف
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              البريد الإلكتروني
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              الاشتراك
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              الحالة
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              تاريخ الإنشاء
-            </TableHead>
-            <TableHead className="font-semibold p-3 text-center">
-              إجراءات
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody className="text-center">
-          {agencies.map((agency) => (
-            <TableRow
-              key={agency.id}
-              className="hover:bg-muted/50 transition-colors odd:bg-white even:bg-gray-50"
-              dir="ltr"
-            >
-              <TableCell className="font-medium text-center p-3">
-                {agency.name}
-              </TableCell>
-              <TableCell className="text-center p-3">
-                {agency.ownerName}
-              </TableCell>
-              <TableCell className="text-center p-3">{agency.phone}</TableCell>
-              <TableCell className="text-center p-3">{agency.email}</TableCell>
-              <TableCell className="text-center p-3">
-                <div className="flex justify-center">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[800px] border-collapse">
+          <thead>
+            <tr className="border-b border-gray-200 bg-gray-50/50 hover:bg-gray-50">
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  className={`h-12 px-2 md:px-4 align-middle font-medium text-gray-500 text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr
+                key={row.id}
+                className="border-b border-gray-200 transition-colors hover:bg-gray-50/50 data-[state=selected]:bg-gray-50"
+              >
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  {row.name}
+                </td>
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  {row.ownerName}
+                </td>
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  {row.phone}
+                </td>
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  {row.email}
+                </td>
+
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
                   <Badge
+                    variant="outline"
                     className={
-                      agency.subscriptionPlan === "ذهبي"
-                        ? "bg-yellow-100 text-black"
-                        : agency.subscriptionPlan === "فضي"
-                        ? "bg-gray-100 text-black"
-                        : "bg-gray-200 text-black"
+                      row.subscriptionPlan === "ذهبي"
+                        ? "bg-yellow-200 text-black border-yellow-300 hover:bg-yellow-200 text-xs"
+                        : row.subscriptionPlan === "فضي"
+                        ? "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200 text-xs"
+                        : "bg-blue-100 text-blue-800 border-blue-300 hover:bg-blue-200 text-xs"
                     }
                   >
-                    {agency.subscriptionPlan}
+                    {row.subscriptionPlan}
                   </Badge>
-                </div>
-              </TableCell>
-              <TableCell className="text-center p-3">
-                <div className="flex justify-center">
+                </td>
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
                   <Badge
-                    variant={
-                      agency.status === "active" ? "default" : "secondary"
+                    variant={row.status === "active" ? "default" : "secondary"}
+                    className={
+                      row.status === "active"
+                        ? "bg-green-600 hover:bg-green-600 text-xs"
+                        : "bg-gray-200 hover:bg-gray-300 text-xs"
                     }
                   >
-                    {agency.status === "active" ? "✓ مفعل" : "○ غير مفعل"}
+                    {row.status}
                   </Badge>
-                </div>
-              </TableCell>
-              <TableCell className="text-center p-3 text-sm">
-                {new Date(agency.createdAt).toLocaleDateString("ar-EG", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </TableCell>
-              <TableCell className="text-center p-3">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-end mx-auto block"
-                    >
-                      <SquarePen />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align={isRTL ? "start" : "end"} className="w-48">
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Eye className="mr-2 h-4 w-4" />
-                      عرض
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Edit className="mr-2 h-4 w-4" />
-                      تعديل
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Building2 className="mr-2 h-4 w-4" />
-                      عرض العقارات
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Users className="mr-2 h-4 w-4" />
-                      عرض المستخدمين
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <RefreshCw className="mr-2 h-4 w-4" />
-                      تجديد الاشتراك
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer">
-                      <Trash2 className="mr-2 h-4 w-4 text-destructive" />
-                      <span className="text-destructive">حذف</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                </td>
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  {row.createdAt}
+                </td>
+                <td
+                  className={`p-2 md:p-4 align-middle text-xs md:text-sm [&:has([role=checkbox])]:pr-0 ${
+                    isRTL ? "text-center" : "text-left"
+                  }`}
+                >
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <SquarePen className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent align={isRTL ? "start" : "end"}>
+                      <DropdownMenuItem onClick={() => navigate(`/agencies/${row.id}`)}>
+                        <Eye className="mr-2 h-4 w-4" />
+                        {isRTL ? "عرض" : "View"}
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem>
+                        <Pencil className="mr-2 h-4 w-4" />
+                        {isRTL ? "تعديل" : "Edit"}
+                      </DropdownMenuItem>
+
+                        <>
+                          <DropdownMenuItem >
+                            <CheckCircle className="mr-2 h-4 w-4 text-green-600" />
+                            {isRTL ? "موافقة" : "Approve"}
+                          </DropdownMenuItem>
+
+                          <DropdownMenuItem >
+                            <XCircle className="mr-2 h-4 w-4 text-orange-600" />
+                            {isRTL ? "رفض" : "Reject"}
+                          </DropdownMenuItem>
+                        </>
+
+                      <DropdownMenuItem
+                        className="text-red-600"
+                        onClick={() => handleDelete(row)}
+                      >
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        {isRTL ? "حذف" : "Delete"}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

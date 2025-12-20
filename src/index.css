@@ -116,11 +116,9 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-
 /* body {
-  overflow-x: hidden;
+  overflow-x: auto;
 } */
-
 
 * {
   scrollbar-width: none;

@@ -7,7 +7,7 @@ const MainLayout = () => {
   const { i18n } = useTranslation();
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="min-h-screen  overflow-hidden">
       {/* Sidebar for desktop */}
       <div className="hidden md:flex">
         <Sidebar />

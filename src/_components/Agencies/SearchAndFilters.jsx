@@ -42,7 +42,7 @@ const SearchAndFilters = () => {
         <Input
           type="text"
           placeholder="ابحث بالاسم أو الهاتف أو البريد أو رقم التسجيل..."
-          className="pl-10"
+          className="pl-10 "
         />
       </div>
 

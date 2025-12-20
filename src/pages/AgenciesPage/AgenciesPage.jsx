@@ -5,12 +5,13 @@ import React from "react";
 
 const AgenciesPage = () => {
   return (
-    <div className="min-h-screen bg-background dark:bg-background p-4 md:p-6 overflow-hidden">
+    <div className="min-h-screen bg-background dark:bg-background p-4 md:p-6 ">
       <AgenciesHeader />
       <SearchAndFilters />
-  <div className="overflow-x-auto">
-    <AgenciesTable/>
-  </div>    </div>
+      <div className="overflow-x-auto">
+        <AgenciesTable />
+      </div>
+    </div>
   );
 };
 
