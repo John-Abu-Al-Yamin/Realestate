@@ -81,7 +81,7 @@ const AddAgencies = () => {
               title={isRTL ? "إضافة وكالة" : "Add Agency"}
               description={isRTL ? "إضافة بيانات الوكالة" : "Add agency details"}
             />
-            <div className="bg-card rounded-xl border shadow-sm p-6">
+            <div className=" p-6">
               <Tabs
                 onTabChange={(controls) => {
                   tabControlRef.current = controls;
@@ -90,7 +90,7 @@ const AddAgencies = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex items-center justify-end gap-4 bg-card rounded-xl border shadow-sm p-6">
+            <div className="flex items-center justify-end gap-4 p-6">
               <Button
                 type="button"
                 variant="outline"

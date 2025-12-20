@@ -82,7 +82,7 @@ const Tabs = ({ onTabChange }) => {
   return (
     <div className="w-full">
       {/* Tabs Navigation */}
-      <div className="border-b border-gray-200 dark:border-gray-800 mb-6 bg-white dark:bg-gray-950 rounded-t-lg">
+      <div className="mb-6 rounded-t-lg">
         <div className="flex flex-wrap gap-1 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -122,7 +122,7 @@ const Tabs = ({ onTabChange }) => {
       </div>
 
       {/* Tab Content */}
-      <div className="mt-6 bg-white dark:bg-gray-950 rounded-lg border p-6 min-h-[400px]">
+      <div className="mt-6 bg-white dark:bg-gray-950 rounded-lg  p-6 min-h-[400px]">
         {ActiveComponent && (
           <div className="animate-in fade-in slide-in-from-top-2 duration-300">
             <ActiveComponent />

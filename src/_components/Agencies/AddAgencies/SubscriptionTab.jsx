@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, Controller } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 import { Label } from "@/components/ui/label";
 import {
@@ -15,14 +15,9 @@ const SubscriptionTab = () => {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
   const {
-    register,
+    control,
     formState: { errors },
-    setValue,
-    watch,
   } = useFormContext();
-
-  const subscriptionPlan = watch("subscriptionPlan");
-  const subscriptionStatus = watch("subscriptionStatus");
 
   return (
     <div>
@@ -41,27 +36,30 @@ const SubscriptionTab = () => {
           <Label htmlFor="subscriptionPlan">
             {isRTL ? "خطة الاشتراك" : "Subscription Plan"} <span className="text-red-500">*</span>
           </Label>
-          <Select
-            value={subscriptionPlan}
-            onValueChange={(value) => setValue("subscriptionPlan", value)}
-          >
-            <SelectTrigger
-              id="subscriptionPlan"
-              className={`w-full ${errors.subscriptionPlan ? "border-red-500" : ""}`}
-            >
-              <SelectValue placeholder={isRTL ? "اختر الخطة" : "Select plan"} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="gold">{isRTL ? "ذهبي" : "Gold"}</SelectItem>
-              <SelectItem value="silver">{isRTL ? "فضي" : "Silver"}</SelectItem>
-              <SelectItem value="bronze">{isRTL ? "برونزي" : "Bronze"}</SelectItem>
-            </SelectContent>
-          </Select>
-          <input
-            type="hidden"
-            {...register("subscriptionPlan", {
+          <Controller
+            name="subscriptionPlan"
+            control={control}
+            rules={{
               required: isRTL ? "خطة الاشتراك مطلوبة" : "Subscription plan is required",
-            })}
+            }}
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger
+                  id="subscriptionPlan"
+                  className={`w-full ${errors.subscriptionPlan ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder={isRTL ? "اختر الخطة" : "Select plan"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="gold">{isRTL ? "ذهبي" : "Gold"}</SelectItem>
+                  <SelectItem value="silver">{isRTL ? "فضي" : "Silver"}</SelectItem>
+                  <SelectItem value="bronze">{isRTL ? "برونزي" : "Bronze"}</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
           />
           {errors.subscriptionPlan && (
             <p className="text-sm text-red-500">{errors.subscriptionPlan.message}</p>
@@ -73,27 +71,30 @@ const SubscriptionTab = () => {
           <Label htmlFor="subscriptionStatus">
             {isRTL ? "حالة الاشتراك" : "Subscription Status"} <span className="text-red-500">*</span>
           </Label>
-          <Select
-            value={subscriptionStatus}
-            onValueChange={(value) => setValue("subscriptionStatus", value)}
-          >
-            <SelectTrigger
-              id="subscriptionStatus"
-              className={`w-full ${errors.subscriptionStatus ? "border-red-500" : ""}`}
-            >
-              <SelectValue placeholder={isRTL ? "اختر الحالة" : "Select status"} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="active">{isRTL ? "نشط" : "Active"}</SelectItem>
-              <SelectItem value="trial">{isRTL ? "تجريبي" : "Trial"}</SelectItem>
-              <SelectItem value="expired">{isRTL ? "منتهي" : "Expired"}</SelectItem>
-            </SelectContent>
-          </Select>
-          <input
-            type="hidden"
-            {...register("subscriptionStatus", {
+          <Controller
+            name="subscriptionStatus"
+            control={control}
+            rules={{
               required: isRTL ? "حالة الاشتراك مطلوبة" : "Subscription status is required",
-            })}
+            }}
+            render={({ field }) => (
+              <Select
+                value={field.value}
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger
+                  id="subscriptionStatus"
+                  className={`w-full ${errors.subscriptionStatus ? "border-red-500" : ""}`}
+                >
+                  <SelectValue placeholder={isRTL ? "اختر الحالة" : "Select status"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="active">{isRTL ? "نشط" : "Active"}</SelectItem>
+                  <SelectItem value="trial">{isRTL ? "تجريبي" : "Trial"}</SelectItem>
+                  <SelectItem value="expired">{isRTL ? "منتهي" : "Expired"}</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
           />
           {errors.subscriptionStatus && (
             <p className="text-sm text-red-500">{errors.subscriptionStatus.message}</p>
