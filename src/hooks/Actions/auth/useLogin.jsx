@@ -1,16 +1,14 @@
-import endPoints from "@/config/categories/endPoints";
-import queryKeys from "@/config/categories/queryKeys";
+import endPoints from "@/hooks/EndPoints/endPoints";
+import queryKeys from "@/hooks/EndPoints/queryKeys";
 import usePostData from "@/hooks/curdsHook/usePostData";
-import { setToken } from "@/Redux/authSlice";
+
 import { setAuthCookie } from "@/services/cookies";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { mutate, data, error, isPending, isSuccess, isError } = usePostData(
@@ -21,32 +19,14 @@ const useLogin = () => {
 
   useEffect(() => {
     if (isSuccess && data) {
-      console.log(data?.data?.data);
-      const apiToken = data?.data?.data;
-      // const apiUser = data?.data?.data?.user || data?.data?.data?.user || null;
-      // const apiUserRole = data?.data?.data?.user?.role || null;
-      // const apiUserDepartment = data?.data?.data?.user?.department_name || null;
+      // استخراج التوكن كسلسلة نصية من الاستجابة
+      const apiToken = data?.data?.data?.token || data?.data?.token;
 
+      console.log("login response", data?.data);
       console.log("apiToken", apiToken);
 
-      // switch (apiUserDepartment) {
-      //   case "الاشغالات":
-      //     navigate("/");
-      //     break;
-      //   case "المراجعة":
-      //     navigate("/review-approval");
-      //     break;
-      //   case "المالية":
-      //     navigate("/financial");
-      //     break;
-      //   default:
-      //     navigate("/auth/login");
-      // }
-      if (apiToken) {
+      if (typeof apiToken === "string" && apiToken.length > 0) {
         setAuthCookie(apiToken);
-
-        dispatch(setToken(apiToken));
-        // if (apiUser) dispatch(setUser(apiUser));
       }
     }
 
@@ -58,7 +38,7 @@ const useLogin = () => {
         "Login failed";
       setErrorMsg(serverErr);
     }
-  }, [data, isSuccess, isError, error, navigate, dispatch]);
+  }, [data, isSuccess, isError, error, navigate]);
 
   return {
     mutate,

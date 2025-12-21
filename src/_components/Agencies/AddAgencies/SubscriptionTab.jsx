@@ -44,7 +44,7 @@ const SubscriptionTab = () => {
             }}
             render={({ field }) => (
               <Select
-                value={field.value}
+                value={field.value || ""}
                 onValueChange={field.onChange}
               >
                 <SelectTrigger
@@ -79,7 +79,7 @@ const SubscriptionTab = () => {
             }}
             render={({ field }) => (
               <Select
-                value={field.value}
+                value={field.value || ""}
                 onValueChange={field.onChange}
               >
                 <SelectTrigger

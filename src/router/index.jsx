@@ -12,6 +12,8 @@ import AgenciesPage from "@/pages/AgenciesPage/AgenciesPage";
 import AgencyDetailsPage from "@/pages/AgenciesPage/AgencyDetailsPage";
 import AddAgencies from "@/pages/AgenciesPage/AddAgencies";
 
+import ProtectedRoute from "./ProtectedRoute";
+
 const router = createBrowserRouter([
   {
     path: "/auth",
@@ -25,25 +27,29 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <MainLayout />,
+    element: (
+      <ProtectedRoute>
+        <MainLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <ErrorPage />,
     children: [
-     
+
       {
         path: "",
         element: <Dashboard />,
       },
       {
         path: "agencies",
-        element: <AgenciesPage/>,
+        element: <AgenciesPage />,
       },
       {
         path: "agencies/:id",
-        element: <AgencyDetailsPage/>,
+        element: <AgencyDetailsPage />,
       },
       {
         path: "agencies/add",
-        element: <AddAgencies/>,
+        element: <AddAgencies />,
       },
       {
         path: "subscriptions",

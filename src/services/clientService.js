@@ -2,7 +2,7 @@ import axios from "axios";
 import getAuthToken from "./cookies";
 
 const clientApi = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: "https://getsimt.com/api/v1",
 });
 
 export const request = async (options) => {

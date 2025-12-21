@@ -5,37 +5,57 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod'
+import useLogin from "@/hooks/Actions/auth/useLogin";
+
 
 const LoginForm = () => {
   const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === "ar";
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    if (!email || !password) {
-      alert(t("login.allFieldsRequired"));
-      return;
-    }
+  const { mutate, isPending, isError, errorMsg, setErrorMsg } = useLogin();
 
-    if (password.length < 6) {
-      alert(t("login.passwordLength"));
-      return;
-    }
 
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      alert(t("login.success"));
-      navigate("/overview");
-    }, 1500);
+  const LoginSchema = z.object({
+    email: z.string().email({
+      message: isRtl
+        ? "البريد الإلكتروني غير صالح"
+        : "Invalid email address",
+    }),
+    password: z.string().min(8, {
+      message: isRtl
+        ? "كلمة المرور يجب أن تكون 8 أحرف على الأقل"
+        : "Password must be at least 8 characters",
+    }),
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(LoginSchema),
+  })
+
+  const onSubmit = (data) => {
+    mutate(
+      { data: data },
+      {
+        onSuccess: () => {
+          navigate("/");
+        },
+      }
+    );
+
   };
 
-  const isRtl = i18n.language === "ar";
+
 
   return (
     <div
@@ -59,7 +79,7 @@ const LoginForm = () => {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Email */}
         <div className="space-y-2">
           <Label htmlFor="email" className="text-foreground dark:text-foreground">
@@ -67,20 +87,19 @@ const LoginForm = () => {
           </Label>
           <div className="relative">
             <Mail
-              className={`absolute top-3 h-4 w-4 text-muted-foreground ${
-                isRtl ? "right-3" : "left-3"
-              }`}
+              className={`absolute top-3 h-4 w-4 text-muted-foreground ${isRtl ? "right-3" : "left-3"
+                }`}
             />
             <Input
               id="email"
               type="email"
               placeholder={t("login.emailPlaceholder")}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email")}
               className={`bg-background dark:bg-background border-border dark:border-border text-foreground dark:text-foreground placeholder:text-muted-foreground
                 ${isRtl ? "pr-10 pl-3" : "pl-10 pr-3"}`}
             />
           </div>
+          <p className="text-red-500 text-sm">{errors.email?.message}</p>
         </div>
 
         {/* Password */}
@@ -90,29 +109,29 @@ const LoginForm = () => {
           </Label>
           <div className="relative">
             <Lock
-              className={`absolute top-3 h-4 w-4 text-muted-foreground ${
-                isRtl ? "right-3" : "left-3"
-              }`}
+              className={`absolute top-3 h-4 w-4 text-muted-foreground ${isRtl ? "right-3" : "left-3"
+                }`}
             />
             <Input
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder={t("login.passwordPlaceholder")}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password")}
+
               className={`bg-background dark:bg-background border-border dark:border-border text-foreground placeholder:text-muted-foreground
                 ${isRtl ? "pr-10 pl-3" : "pl-10 pr-3"}`}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className={`absolute top-3 text-muted-foreground hover:text-foreground ${
-                isRtl ? "left-3" : "right-3"
-              }`}
+              className={`absolute top-3 text-muted-foreground hover:text-foreground ${isRtl ? "left-3" : "right-3"
+                }`}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
+          <p className="text-red-500 text-sm">{errors.password?.message}</p>
+
         </div>
 
         {/* Remember + Forgot */}
@@ -131,10 +150,11 @@ const LoginForm = () => {
         <Button
           type="submit"
           className="w-full cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90"
-          disabled={isLoading}
+          disabled={isPending}
         >
-          {isLoading ? t("login.signingIn") : t("login.signIn")}
+          {isPending ? t("login.signingIn") : t("login.signIn")}
         </Button>
+
       </form>
     </div>
   );

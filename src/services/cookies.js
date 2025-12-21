@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 
-const TOKEN_NAME = "Revenues_TOKEN";
+const TOKEN_NAME = "Realestate_TOKEN";
 
 const setAuthCookie = (token) => {
   Cookies.set(TOKEN_NAME, token);

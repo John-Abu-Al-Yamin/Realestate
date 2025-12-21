@@ -1,119 +1,14 @@
-// import { useMutation, useQueryClient } from "@tanstack/react-query";
-// import { useState } from "react";
-// import { useSelector } from "react-redux";
-// import { toast } from "sonner";
-// import postRequest from "../handleRequest/PostRequest";
 
-// const usePostData = (url, mutationKeys, invalidateQueryKey) => {
-//   const token = useSelector((state) => state.auth.token);
-
-//   const queryClient = useQueryClient();
-//   const [requestData, setRequestData] = useState(null);
-//   const [toastId, setToastId] = useState(null);
-
-//   const mutation = useMutation({
-//     mutationKey: mutationKeys,
-
-//     mutationFn: async ({ data, url: overrideUrl }) => {
-//       console.log(data);
-//       setRequestData(data);
-//       const finalUrl = overrideUrl || url;
-
-//       const loadingToast = toast.loading("جاري المعالجة...");
-//       setToastId(loadingToast);
-
-//       return postRequest(finalUrl, data, token);
-//     },
-
-//     onSuccess: (data) => {
-//       const successMessage = data?.data?.message || "Success!";
-
-//       const invalidateKeys = Array.isArray(invalidateQueryKey)
-//         ? invalidateQueryKey
-//         : [invalidateQueryKey];
-
-//       invalidateKeys.forEach((key) => {
-//         queryClient.invalidateQueries({ queryKey: [key] });
-//       });
-//       if (toastId) {
-//         toast.dismiss(toastId);
-//         setToastId(null);
-//       }
-
-//       toast.success(successMessage, {
-//         duration: 2000,
-//         style: {
-//           borderRadius: "10px",
-//           color: "#fff",
-//           backgroundColor: "#166645",
-//         },
-//       });
-
-//       return { successMessage };
-//     },
-//     onError: (error) => {
-//       const errorData = error?.response?.data;
-
-//       console.log("Error details:", errorData);
-
-//       if (toastId) {
-//         toast.dismiss(toastId);
-//         setToastId(null);
-//       }
-
-//       if (errorData?.message) {
-//         if (typeof errorData.message === "object") {
-//           Object.entries(errorData.message).forEach(([field, message]) => {
-//             console.log(`Field: ${field}, Error: ${message}`);
-//             toast.error(message, {
-//               duration: 2000,
-//               style: {
-//                 borderRadius: "10px",
-//                 color: "#fff",
-//                 backgroundColor: "#e31f1f",
-//               },
-//             });
-//           });
-//         } else if (typeof errorData.message === "string") {
-//           toast.error(errorData.message, {
-//             duration: 2000,
-//             style: {
-//               borderRadius: "10px",
-//               color: "#fff",
-//               backgroundColor: "#e31f1f",
-//             },
-//           });
-//         }
-//       } else {
-//         toast.error("حدث خطأ غير متوقع", {
-//           duration: 2000,
-//           style: {
-//             borderRadius: "10px",
-//             color: "#fff",
-//             backgroundColor: "#e31f1f",
-//           },
-//         });
-//       }
-//     },
-//   });
-
-//   return {
-//     requestData,
-//     ...mutation,
-//   };
-// };
-
-// export default usePostData;
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AlertCircle, Check } from "lucide-react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { toast } from "sonner";
 import postRequest from "../handleRequest/PostRequest";
 
 const usePostData = (url, mutationKeys, invalidateQueryKey) => {
-  const token = useSelector((state) => state.auth.token);
+  // const token = useSelector((state) => state.auth.token);
   const queryClient = useQueryClient();
   const [requestData, setRequestData] = useState(null);
   const [toastId, setToastId] = useState(null);
@@ -128,7 +23,7 @@ const usePostData = (url, mutationKeys, invalidateQueryKey) => {
       const loadingToast = toast.loading("جاري المعالجة...");
       setToastId(loadingToast);
 
-      return postRequest(finalUrl, data, token);
+      return postRequest(finalUrl, data);
     },
 
     onSuccess: (data, variables) => {
