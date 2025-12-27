@@ -12,9 +12,11 @@ import {
   Menu,
   X,
   ChevronUp,
+  LogOut,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwitcher";
+import { removeAuthToken } from "@/services/cookies";
 
 const SidebarMobile = () => {
   const { t, i18n } = useTranslation();
@@ -45,10 +47,9 @@ const SidebarMobile = () => {
         to={item.href}
         onClick={() => setIsExpanded(false)}
         className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300
-          ${
-            isActive
-              ? "bg-black dark:bg-white text-white dark:text-black shadow-md scale-[1.02]"
-              : "text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700"
+          ${isActive
+            ? "bg-black dark:bg-white text-white dark:text-black shadow-md scale-[1.02]"
+            : "text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700"
           }`}
       >
         <Icon className="h-[18px] w-[18px] shrink-0" strokeWidth={1.5} />
@@ -137,6 +138,17 @@ const SidebarMobile = () => {
             <div className="mt-4">
               <LanguageSwitcher isSidebarOpen={true} />
             </div>
+
+            <button
+              onClick={() => {
+                removeAuthToken();
+                window.location.href = "/auth/login";
+              }}
+              className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 w-full hover:bg-red-50 dark:hover:bg-red-900/10 text-red-600 dark:text-red-400"
+            >
+              <LogOut className="h-[18px] w-[18px] shrink-0" strokeWidth={1.5} />
+              <span className="font-medium whitespace-nowrap">{t("sidebar.logout")}</span>
+            </button>
           </div>
         </div>
       </div>

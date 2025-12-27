@@ -60,7 +60,7 @@ const LoginForm = () => {
   return (
     <div
       dir={isRtl ? "rtl" : "ltr"}
-      className="w-full max-w-md mx-auto bg-transparent rounded-2xl p-6 dark:bg-card"
+      className="w-full h-full max-w-md mx-auto bg-transparent rounded-2xl p-6 dark:bg-card"
     >
       {/* Header */}
       <div className="space-y-1 text-center mb-6">

@@ -9,10 +9,12 @@ import {
   Activity,
   Settings,
   Menu,
+  LogOut,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../LanguageSwitcher";
+import { removeAuthToken } from "@/services/cookies";
 
 const Sidebar = () => {
   const { t, i18n } = useTranslation();
@@ -58,18 +60,16 @@ const Sidebar = () => {
               key={item.key}
               to={item.href}
               className={({ isActive }) =>
-                `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-black text-white"
-                    : "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
+                `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
+                  ? "bg-black text-white"
+                  : "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
                 }`
               }
             >
               <Icon className="h-[18px] w-[18px]" strokeWidth={1.5} />
               <span
-                className={`transition-all duration-300 overflow-hidden ${
-                  isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 hidden"
-                }`}
+                className={`transition-all duration-300 overflow-hidden ${isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 hidden"
+                  }`}
               >
                 {t(`sidebar.${item.key}`)}
               </span>
@@ -83,24 +83,38 @@ const Sidebar = () => {
         <NavLink
           to="/settings"
           className={({ isActive }) =>
-            `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 ${
-              isActive
-                ? "bg-black text-white"
-                : "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
+            `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 ${isActive
+              ? "bg-black text-white"
+              : "hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-100"
             }`
           }
         >
           <Settings className="h-[18px] w-[18px]" strokeWidth={1.5} />
           <span
-            className={`transition-all duration-300 ${
-              isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 hidden"
-            }`}
+            className={`transition-all duration-300 ${isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 hidden"
+              }`}
           >
             {t("sidebar.settings")}
           </span>
         </NavLink>
 
         <LanguageSwitcher isSidebarOpen={isOpen} />
+
+        <button
+          onClick={() => {
+            removeAuthToken();
+            window.location.href = "/auth/login";
+          }}
+          className={`flex items-center gap-3 bg-red-50 cursor-pointer rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-300 w-full hover:bg-red-100 dark:hover:bg-red-900/10 text-red-600 dark:text-red-400`}
+        >
+          <LogOut className="h-[18px] w-[18px]" strokeWidth={1.5} />
+          <span
+            className={`transition-all duration-300 text-start ${isOpen ? "opacity-100 w-auto" : "opacity-0 w-0 hidden"
+              }`}
+          >
+            {t("sidebar.logout")}
+          </span>
+        </button>
       </div>
     </div>
   );

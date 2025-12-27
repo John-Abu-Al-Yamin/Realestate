@@ -17,7 +17,7 @@ const AuthLayout = () => {
         </div>
       </header>
       <div
-        className={`flex items-center justify-center h-[90vh] bg-background dark:bg-background }`}
+        className={`flex items-center justify-center h-[90vh] bg-background dark:bg-background`}
       >
         <Outlet />
       </div>

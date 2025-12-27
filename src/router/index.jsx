@@ -13,11 +13,16 @@ import AgencyDetailsPage from "@/pages/AgenciesPage/AgencyDetailsPage";
 import AddAgencies from "@/pages/AgenciesPage/AddAgencies";
 
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 
 const router = createBrowserRouter([
   {
     path: "/auth",
-    element: <AuthLayout />,
+    element: (
+      <PublicRoute>
+        <AuthLayout />
+      </PublicRoute>
+    ),
     children: [
       { path: "login", element: <LoginForm /> },
       { path: "forgot-password", element: <ForgotPasswordForm /> },
